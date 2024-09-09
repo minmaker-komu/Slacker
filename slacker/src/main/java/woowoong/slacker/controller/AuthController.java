@@ -2,22 +2,21 @@ package woowoong.slacker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import woowoong.slacker.dto.KakaoTokenRequest;
 import woowoong.slacker.dto.KakaoUser;
 import woowoong.slacker.service.KakaoLoginService;
 
+
+
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/oauth")
 public class AuthController {
 
     @Autowired
     private KakaoLoginService kakaoLoginService;
 
-    @PostMapping("/kakao/login")
+    @GetMapping("/kakao/login")
     public ResponseEntity<KakaoUser> kakaoLogin(@RequestBody KakaoTokenRequest kakaoTokenRequest) {
         // 1. 인가 코드를 사용해 액세스 토큰 요청
         String accessToken = kakaoLoginService.getAccessToken(kakaoTokenRequest.getCode());

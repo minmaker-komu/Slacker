@@ -20,9 +20,9 @@ public class KakaoLoginService {
 
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
-    private final String clientId = "YOUR_CLIENT_ID";  // 카카오에서 발급받은 클라이언트 ID
-    private final String redirectUri = "http://localhost:8080/login/oauth2/code/kakao";
-    private final String clientSecret = "YOUR_CLIENT_SECRET"; // 선택 사항
+    private final String clientId = "30f7417d4dfd32ed9ffa1c968a29faf3";  // 카카오에서 발급받은 클라이언트 ID
+    private final String redirectUri = "http://localhost:8080/oauth/kakao/login";
+    private final String clientSecret = "ptNI8ZjOnGbCNsmvRyE5e4rkgkWeCchr"; // 선택 사항
     private final String kakaoTokenUrl = "https://kauth.kakao.com/oauth/token";
     private final String kakaoUserInfoUrl = "https://kapi.kakao.com/v2/user/me";
 
@@ -58,6 +58,7 @@ public class KakaoLoginService {
         ResponseEntity<Map> response = restTemplate.postForEntity(kakaoTokenUrl, request, Map.class);
 
         Map<String, Object> responseBody = response.getBody();
+        System.out.println("카카오 로그인 성공");
         return responseBody != null ? (String) responseBody.get("access_token") : null;
     }
 

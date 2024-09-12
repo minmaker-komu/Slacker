@@ -24,8 +24,7 @@ public class User {
 
     // 생성자
     @Builder
-    public User(Long id, String username, String email, Role role) {
-        this.id = id;
+    public User(String username, String email, Role role) {
         this.username = username;
         this.email = email;
         this.role = role;

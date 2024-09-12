@@ -7,6 +7,7 @@
 //import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 //import org.springframework.security.oauth2.core.user.OAuth2User;
 //import org.springframework.stereotype.Service;
+//import woowoong.slacker.domain.Role;
 //import woowoong.slacker.domain.User;
 //import woowoong.slacker.repository.UserRepository;
 //
@@ -38,7 +39,7 @@
 //            user = userOptional.get();
 //        } else {
 //            // 데이터베이스에 사용자 정보가 없으면 새로 저장
-//            user = new User(userName, email, "ROLE_USER");
+//            user = new User(userName, email, Role.USER);
 //            userRepository.save(user);
 //        }
 //

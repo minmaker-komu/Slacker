@@ -20,7 +20,7 @@ public class UserService {
 
     public User processKakaoLogin(KakaoUser kakaoUser) {
         String email = kakaoUser.getEmail();
-        String nickname = kakaoUser.getUserName();
+        String nickname = kakaoUser.getNickname();
 
         // 사용자 정보가 이미 있는지 확인
         Optional<User> existingUser = userRepository.findByEmail(email);

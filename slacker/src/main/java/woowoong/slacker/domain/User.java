@@ -1,11 +1,10 @@
 package woowoong.slacker.domain;
 
-
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,7 +17,17 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role; // USER, OWNER
 
+    @OneToMany(mappedBy = "user")
+    private List<Booking> bookings;  // 유저가 예매한 예매 내역들
+
     public User() {
+    }
+
+    public User(Long id, String username, String email, Role role) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.role = role;
     }
 
     // 생성자

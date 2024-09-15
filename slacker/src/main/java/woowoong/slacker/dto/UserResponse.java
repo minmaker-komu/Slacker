@@ -2,6 +2,7 @@ package woowoong.slacker.dto;
 
 import woowoong.slacker.domain.User;
 
+// 로그인 후 사용자 정보 반환
 public class UserResponse {
     private String email;
     private String nickname;

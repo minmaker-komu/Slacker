@@ -19,7 +19,7 @@ public class BookingService {
         this.bookingRepository = bookingRepository;
     }
 
-    public BookingDto convertToDto(Booking booking) {
+    public BookingDto liveToDto(Booking booking) {
         return new BookingDto(
                 booking.getId(),
                 booking.getUser().getId(),
@@ -35,7 +35,7 @@ public class BookingService {
     // 예매 리스트를 DTO로 변환
     public List<BookingDto> liveToDtoList(List<Booking> bookings) {
         return bookings.stream()
-                .map(this::convertToDto)
+                .map(this::liveToDto)
                 .collect(Collectors.toList());
     }
 
@@ -43,6 +43,5 @@ public class BookingService {
     public List<Booking> getBookingsByUserId(Long userId) {
         // 리포지토리에서 유저 ID로 예매 내역 조회
         return bookingRepository.findByUserId(userId);
-
     }
 }

@@ -11,7 +11,7 @@ import woowoong.slacker.service.KakaoService;
 import woowoong.slacker.service.UserService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/oauth")
 public class AuthController {
 
     @Autowired

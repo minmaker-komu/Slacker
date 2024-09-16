@@ -19,14 +19,14 @@ public class LiveController{
     @Autowired
     private LiveService liveService;
 
-    // 오늘 공연 보기
+    // 오늘 공연 조회
     @GetMapping("/today")
     public ResponseEntity<List<Live>> getTodaysLives() {
         List<Live> lives = liveService.getTodaysLives();
         return ResponseEntity.ok(lives);
     }
 
-    // 전체 공연 보기
+    // 전체 공연 조회
     @GetMapping("/all")
     public ResponseEntity<List<Live>> getAllLives() {
         List<Live> lives = liveService.getAllLives();

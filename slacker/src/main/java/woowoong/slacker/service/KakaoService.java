@@ -6,7 +6,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import woowoong.slacker.dto.KakaoUser;
+import woowoong.slacker.dto.login.KakaoUser;
 
 @Service
 public class KakaoService {

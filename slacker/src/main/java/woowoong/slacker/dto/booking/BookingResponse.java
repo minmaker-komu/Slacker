@@ -1,14 +1,18 @@
-package woowoong.slacker.dto;
+package woowoong.slacker.dto.booking;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import woowoong.slacker.domain.Booking;
+
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingDto {
+@Builder
+public class BookingResponse {
 
     private Long id;  // 예매 ID
     private Long userId;  // 유저 ID
@@ -16,8 +20,19 @@ public class BookingDto {
     private String liveTitle;  // 공연 제목
     private LocalDateTime bookingDate;  // 예매한 날짜
     private int numberOfTickets;  // 예매한 티켓 수
+    private int totalAmount; // 예매 가격
 
     // 유저 정보 (필요한 경우)
     private String userName;  // 유저 이름 또는 닉네임
     private String userEmail;  // 유저 이메일
+
+    public BookingResponse(Booking booking) {
+        this.id = booking.getId();
+        this.userId = booking.getUser().getId();
+        this.liveId = booking.getLive().getId();
+        this.liveTitle = booking.getLive().getTitle();
+        this.bookingDate = booking.getBookingDate();
+        this.numberOfTickets = booking.getNumberOfTickets();
+        this.totalAmount = booking.getTotalAmount();
+    }
 }

@@ -1,4 +1,4 @@
-package woowoong.slacker.dto;
+package woowoong.slacker.dto.login;
 
 import woowoong.slacker.domain.User;
 

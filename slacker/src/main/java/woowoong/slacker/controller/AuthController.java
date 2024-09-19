@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import woowoong.slacker.domain.User;
-import woowoong.slacker.dto.KakaoTokenRequest;
-import woowoong.slacker.dto.KakaoUser;
-import woowoong.slacker.dto.UserResponse;
+import woowoong.slacker.dto.login.KakaoTokenRequest;
+import woowoong.slacker.dto.login.KakaoUser;
+import woowoong.slacker.dto.login.UserResponse;
 import woowoong.slacker.service.KakaoService;
 import woowoong.slacker.service.UserService;
 

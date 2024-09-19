@@ -1,4 +1,4 @@
-package woowoong.slacker.dto;
+package woowoong.slacker.dto.login;
 
 // 액세스 토큰 처리 요청 데이터 클래스
 public class KakaoTokenRequest {

@@ -1,4 +1,4 @@
-package woowoong.slacker.dto;
+package woowoong.slacker.dto.login;
 
 //카카오 API에서 받아오는 사용자 정보를 저장하기 위한 DTO 클래스
 

@@ -1,12 +1,17 @@
 package woowoong.slacker.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Data
 @Entity
+@NoArgsConstructor
 public class Booking {
 
     @Id
@@ -21,51 +26,36 @@ public class Booking {
     @JoinColumn(name = "live_id")
     private Live live;  // 예매한 공연
 
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
+
     private LocalDateTime bookingDate;  // 예매한 날짜
     private int numberOfTickets;  // 예매한 티켓 수
+    private int totalAmount; // 예매 총 가격
 
-    public Booking(Long id, User user, Live live, LocalDateTime bookingDate, int numberOfTickets) {
-        this.id = id;
+    public Booking(User user, Live live, BookingStatus status, LocalDateTime bookingDate, int numberOfTickets) {
         this.user = user;
         this.live = live;
+        this.status = status;
         this.bookingDate = bookingDate;
         this.numberOfTickets = numberOfTickets;
-    }
-
-    public Long getId() {
-        return id;
+        this.totalAmount = numberOfTickets * live.getAdvancePrice();
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Live getLive() {
-        return live;
     }
 
     public void setLive(Live live) {
         this.live = live;
     }
 
-    public LocalDateTime getBookingDate() {
-        return bookingDate;
-    }
-
     public void setBookingDate(LocalDateTime bookingDate) {
         this.bookingDate = bookingDate;
-    }
-
-    public int getNumberOfTickets() {
-        return numberOfTickets;
     }
 
     public void setNumberOfTickets(int numberOfTickets) {

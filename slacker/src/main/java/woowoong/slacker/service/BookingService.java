@@ -3,9 +3,20 @@ package woowoong.slacker.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import woowoong.slacker.domain.Booking;
-import woowoong.slacker.dto.BookingDto;
+import woowoong.slacker.domain.BookingStatus;
+import woowoong.slacker.domain.Live;
+import woowoong.slacker.domain.User;
+import woowoong.slacker.dto.booking.BookingRequest;
+import woowoong.slacker.dto.booking.BookingResponse;
+import woowoong.slacker.dto.booking.UpdateBookingStatusRequest;
+import woowoong.slacker.exception.BookingNotFoundException;
+import woowoong.slacker.exception.LiveNotFoundException;
+import woowoong.slacker.exception.UserNotFoundException;
 import woowoong.slacker.repository.BookingRepository;
+import woowoong.slacker.repository.LiveRepository;
+import woowoong.slacker.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,27 +24,66 @@ import java.util.stream.Collectors;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
+    private final UserRepository userRepository;
+    private final LiveRepository liveRepository;
 
     @Autowired
-    public BookingService(BookingRepository bookingRepository) {
+    public BookingService(BookingRepository bookingRepository, UserRepository userRepository, LiveRepository liveRepository) {
         this.bookingRepository = bookingRepository;
+        this.userRepository = userRepository;
+        this.liveRepository = liveRepository;
     }
 
-    public BookingDto liveToDto(Booking booking) {
-        return new BookingDto(
+    public BookingResponse liveToDto(Booking booking) {
+        return new BookingResponse(
                 booking.getId(),
                 booking.getUser().getId(),
                 booking.getLive().getId(),
                 booking.getLive().getTitle(),
                 booking.getBookingDate(),
                 booking.getNumberOfTickets(),
+                booking.getTotalAmount(),
                 booking.getUser().getUsername(),
                 booking.getUser().getEmail()
         );
     }
 
+    // 예매 생성
+    public BookingResponse createBooking(BookingRequest bookingRequest) {
+
+        String userEmail = bookingRequest.getUserEmail();
+        String liveId = bookingRequest.getLiveId();
+        int numberOfTickets = bookingRequest.getNumberOfTickets();
+
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + userEmail));
+
+        Live live = liveRepository.findById(Long.valueOf(liveId))
+                .orElseThrow(() -> new LiveNotFoundException("Live not found with ID: " + liveId));
+
+        LocalDateTime now = LocalDateTime.now();
+
+        Booking booking = new Booking(user, live, BookingStatus.PENDING, now, numberOfTickets);
+        Booking savedBooking = bookingRepository.save(booking);
+
+        // 주문 저장
+        return new BookingResponse(savedBooking);
+    }
+
+    // 주문 상태 업데이트
+    public BookingResponse updateOrderStatus(UpdateBookingStatusRequest request) {
+
+        Booking booking = bookingRepository.findById(request.getBookingId())
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + request.getBookingId()));
+
+        booking.setStatus(request.getStatus());
+        Booking updatedBooking = bookingRepository.save(booking);
+
+        return new BookingResponse(updatedBooking);
+    }
+
     // 예매 리스트를 DTO로 변환
-    public List<BookingDto> liveToDtoList(List<Booking> bookings) {
+    public List<BookingResponse> liveToDtoList(List<Booking> bookings) {
         return bookings.stream()
                 .map(this::liveToDto)
                 .collect(Collectors.toList());

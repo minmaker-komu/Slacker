@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import woowoong.slacker.domain.Role;
 import woowoong.slacker.domain.User;
-import woowoong.slacker.dto.KakaoUser;
+import woowoong.slacker.dto.login.KakaoUser;
 import woowoong.slacker.repository.UserRepository;
 
 import java.util.Optional;

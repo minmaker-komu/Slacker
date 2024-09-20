@@ -15,10 +15,7 @@ import se.michaelthelin.spotify.requests.data.search.simplified.SearchArtistsReq
 import woowoong.slacker.dto.spotify.RecommendedTrackResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.StringJoiner;
+import java.util.*;
 
 @Service
 public class Recommendation {
@@ -31,12 +28,9 @@ public class Recommendation {
     public String getArtistIdByName(String artistName) throws Exception {
         SearchArtistsRequest searchRequest = spotifyApi.searchArtists(artistName).build();
         Artist[] artists = searchRequest.execute().getItems();
+        System.out.println(Arrays.toString(artists));
 
-        if (artists.length > 0) {
-            return artists[0].getId(); // 첫 번째 아티스트의 ID 반환
-        } else {
-            throw new Exception("No artist found with name: " + artistName);
-        }
+        return artists[0].getId(); // 첫 번째 아티스트의 ID 반환
     }
 
     // 아티스트 Top Tracks 상위 5개 가져오기
@@ -51,6 +45,7 @@ public class Recommendation {
 
         for (int i = 0; i < 4; i++) {  // 상위 4개 가져오기
             topTrackIds.add(tracks[i].getId());
+            System.out.println(tracks[i].getName());
         }
 
 

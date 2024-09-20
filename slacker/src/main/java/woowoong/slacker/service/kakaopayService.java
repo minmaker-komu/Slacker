@@ -26,10 +26,12 @@ public class kakaopayService {
 
     private final BookingRepository bookingRepository;
     private final BookingService bookingService;
+    private final LiveService liveService;
     @Autowired
-    public kakaopayService(BookingRepository bookingRepository, BookingService bookingService) {
+    public kakaopayService(BookingRepository bookingRepository, BookingService bookingService, LiveService liveService) {
         this.bookingRepository = bookingRepository;
         this.bookingService = bookingService;
+        this.liveService = liveService;
     }
     static final String cid = "TC0ONETIME"; // 가맹점 테스트 코드
     static final String secretKey = "SECRET_KEY DEV3D20D79213FEAF1D762486EC6D6F90E273D45";
@@ -87,6 +89,7 @@ public class kakaopayService {
 
         Long bookingId = bookingResponse.getId();
         Long UserId = bookingResponse.getUserId();
+        Long LiveId = bookingResponse.getLiveId();
 
         // 카카오 요청 양식
         Map<String, String> parameters = new HashMap<>();
@@ -108,6 +111,7 @@ public class kakaopayService {
                 .postForObject(url, requestEntity, KakaoPayApproveResponse.class);
 
         bookingResponse = updateCompletedState(bookingId);
+        liveService.changNumOfSeats(LiveId, BookingStatus.COMPLETED);
 
         return approveResponse;
     }
@@ -148,6 +152,7 @@ public class kakaopayService {
                 KakaoPayCancelResponse.class);
 
         updateCanceledState(bookingId);
+        liveService.changNumOfSeats(booking.getLive().getId(), BookingStatus.CANCELED);
 
         return cancelResponse;
     }
@@ -164,7 +169,6 @@ public class kakaopayService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", secretKey);
         headers.set("Content-type", "application/json");
-
         return headers;
     }
 }

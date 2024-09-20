@@ -26,8 +26,9 @@ public class Live {
     private String notice;
     private String timetable;
     private String image;
+    private int remainNumOfSeats;
 
-    public Live(Long id, String title, String bandLineup, LocalDate date, String club_id, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image) {
+    public Live(Long id, String title, String bandLineup, LocalDate date, String club_id, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image, int remainNumOfSeats) {
         this.id = id;
         this.title = title;
         this.bandLineup = bandLineup;
@@ -39,9 +40,14 @@ public class Live {
         this.notice = notice;
         this.timetable = timetable;
         this.image = image;
+        this.remainNumOfSeats = remainNumOfSeats;
     }
 
     public Live() {
 
+    }
+
+    public void setRemainNumOfSeats(int remainNumOfSeats) {
+        this.remainNumOfSeats = remainNumOfSeats;
     }
 }

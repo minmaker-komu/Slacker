@@ -5,7 +5,7 @@ import lombok.*;
 @Getter
 @Builder
 public class BookingRequest {
-    private String userEmail;
+    private Long userId;
     private String liveId;
     private int numberOfTickets;
 }

@@ -2,11 +2,9 @@ package woowoong.slacker.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import woowoong.slacker.domain.Club;
+import woowoong.slacker.dto.Club.ClubDto;
 import woowoong.slacker.service.ClubService;
 
 import java.util.List;
@@ -35,5 +33,18 @@ public class ClubController {
     public ResponseEntity<Club> getClubById(@PathVariable Long id) {
         Optional<Club> club = clubService.getClubById(id);
         return club.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // 공연장 등록하기
+    @PostMapping("/register")
+    public ResponseEntity<Club> registerClub(@RequestBody ClubDto clubDto) {
+        Club club = clubService.registerClub(
+                clubDto.getClubName(),
+                clubDto.getLocation(),
+                clubDto.getPhoneNumber(),
+                clubDto.getWebsite(),
+                clubDto.getNotice()
+        );
+        return ResponseEntity.ok(club);
     }
 }

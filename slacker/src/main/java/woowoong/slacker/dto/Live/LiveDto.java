@@ -1,26 +1,17 @@
-package woowoong.slacker.domain;
+package woowoong.slacker.dto.Live;
 
-import jakarta.persistence.*;
-import lombok.Getter;
+import woowoong.slacker.domain.Club;
 
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-@Entity
-@Getter
-public class Live {
+public class LiveDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String bandLineup;
     private LocalDate date;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_id")
-    private Club club_id;  // 공연장과의 외래키 관계
+    private Long club_id;
     private String genre;
     private int advancePrice;
     private int doorPrice;
@@ -29,29 +20,6 @@ public class Live {
     private String image;
 
     private Time startTime;
-
-    public Live(Long id, String title, String bandLineup, LocalDate date, Club club_id, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image, Time startTime) {
-        this.id = id;
-        this.title = title;
-        this.bandLineup = bandLineup;
-        this.date = date;
-        this.club_id = club_id;
-        this.genre = genre;
-        this.advancePrice = advancePrice;
-        this.doorPrice = doorPrice;
-        this.notice = notice;
-        this.timetable = timetable;
-        this.image = image;
-        this.startTime = startTime;
-    }
-
-    public Live() {
-
-    }
-
-    public Live(String title, String bandLineup, LocalDate date, Long club_id, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image, Time startTime) {
-    }
-
 
     public Long getId() {
         return id;
@@ -84,6 +52,8 @@ public class Live {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+
 
     public String getGenre() {
         return genre;
@@ -141,11 +111,11 @@ public class Live {
         this.startTime = startTime;
     }
 
-    public Club getClub_id() {
+    public Long getClub_id() {
         return club_id;
     }
 
-    public void setClub_id(Club club_id) {
+    public void setClub_id(Long club_id) {
         this.club_id = club_id;
     }
 }

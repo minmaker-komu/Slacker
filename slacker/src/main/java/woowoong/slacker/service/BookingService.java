@@ -41,6 +41,7 @@ public class BookingService {
                 booking.getUser().getKakaoId(),
                 booking.getLive().getId(),
                 booking.getLive().getTitle(),
+                booking.getStatus(),
                 booking.getBookingDate(),
                 booking.getNumberOfTickets(),
                 booking.getTotalAmount(),

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import woowoong.slacker.domain.Booking;
+import woowoong.slacker.domain.BookingStatus;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +20,7 @@ public class BookingResponse {
     private Long kakaoId;
     private Long liveId;  // 공연 ID
     private String liveTitle;  // 공연 제목
+    private BookingStatus status;
     private LocalDateTime bookingDate;  // 예매한 날짜
     private int numberOfTickets;  // 예매한 티켓 수
     private int totalAmount; // 예매 가격
@@ -32,6 +34,7 @@ public class BookingResponse {
         this.kakaoId = booking.getUser().getKakaoId();
         this.liveId = booking.getLive().getId();
         this.liveTitle = booking.getLive().getTitle();
+        this.status = booking.getStatus();
         this.bookingDate = booking.getBookingDate();
         this.numberOfTickets = booking.getNumberOfTickets();
         this.totalAmount = booking.getTotalAmount();

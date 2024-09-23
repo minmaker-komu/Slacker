@@ -28,8 +28,6 @@ public class Recommendation {
     public String getArtistIdByName(String artistName) throws Exception {
         SearchArtistsRequest searchRequest = spotifyApi.searchArtists(artistName).build();
         Artist[] artists = searchRequest.execute().getItems();
-        System.out.println(Arrays.toString(artists));
-
         return artists[0].getId(); // 첫 번째 아티스트의 ID 반환
     }
 
@@ -45,7 +43,6 @@ public class Recommendation {
 
         for (int i = 0; i < 4; i++) {  // 상위 4개 가져오기
             topTrackIds.add(tracks[i].getId());
-            System.out.println(tracks[i].getName());
         }
 
 

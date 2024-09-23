@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import woowoong.slacker.domain.Live;
-import woowoong.slacker.dto.LiveResponse;
-import woowoong.slacker.dto.Live.LiveDto;
+import woowoong.slacker.dto.Live.LiveResponse;
 import woowoong.slacker.service.LiveService;
 
 import java.io.IOException;
@@ -17,9 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/lives")
 public class LiveController{
-
+    private final LiveService liveService;
     @Autowired
-    private LiveService liveService;
+    public LiveController(LiveService liveService) {
+        this.liveService = liveService;
+    }
 
     // 오늘 공연 조회
     @GetMapping("/today")
@@ -46,16 +46,16 @@ public class LiveController{
     // 공연 등록하기
 
     @PostMapping("/register")
-    public ResponseEntity<Live> registerLiveWithImage(
+    public ResponseEntity<LiveResponse> registerLiveWithImage(
             @RequestParam("image") MultipartFile imageFile,
             @RequestParam("liveDto") String liveDtoJson) {
         try {
             // JSON 문자열을 LiveDto 객체로 변환
             ObjectMapper objectMapper = new ObjectMapper();
-            LiveDto liveDto = objectMapper.readValue(liveDtoJson, LiveDto.class);
+            LiveResponse liveResponse = objectMapper.readValue(liveDtoJson, LiveResponse.class);
 
             // 서비스 호출하여 공연 등록
-            Live live = liveService.registerLiveWithImage(imageFile, liveDto);
+            LiveResponse live = liveService.registerLiveWithImage(imageFile, liveResponse);
             return ResponseEntity.ok(live);
         } catch (IOException e) {
             return ResponseEntity.status(500).body(null);

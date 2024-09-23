@@ -1,15 +1,16 @@
 package woowoong.slacker.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import woowoong.slacker.domain.Live;
 import woowoong.slacker.dto.LiveResponse;
+import woowoong.slacker.dto.Live.LiveDto;
 import woowoong.slacker.service.LiveService;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -43,9 +44,21 @@ public class LiveController{
     }
 
     // 공연 등록하기
-//    @PostMapping("/register")
-//    public ResponseEntity<String> registerConcert(@RequestBody ConcertRequest concertRequest) {
-//        liveService.registerlive(concertRequest);
-//        return ResponseEntity.ok("공연 등록 완료");
-//    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Live> registerLiveWithImage(
+            @RequestParam("image") MultipartFile imageFile,
+            @RequestParam("liveDto") String liveDtoJson) {
+        try {
+            // JSON 문자열을 LiveDto 객체로 변환
+            ObjectMapper objectMapper = new ObjectMapper();
+            LiveDto liveDto = objectMapper.readValue(liveDtoJson, LiveDto.class);
+
+            // 서비스 호출하여 공연 등록
+            Live live = liveService.registerLiveWithImage(imageFile, liveDto);
+            return ResponseEntity.ok(live);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
 }

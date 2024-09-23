@@ -27,4 +27,12 @@ public class ClubService {
     public Optional<Club> getClubById(Long id) {
         return clubRepository.findById(id);
     }
+
+    // 공연장 등록
+    public Club registerClub(String clubName, String location, String phoneNumber, String website, String notice) {
+        Club club = new Club(null, clubName, location, phoneNumber, website, notice);
+        return clubRepository.save(club);
+    }
+
+
 }

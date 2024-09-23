@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import woowoong.slacker.domain.Live;
+import woowoong.slacker.dto.LiveResponse;
 import woowoong.slacker.dto.Live.LiveDto;
 import woowoong.slacker.service.LiveService;
 
@@ -22,22 +23,23 @@ public class LiveController{
 
     // 오늘 공연 조회
     @GetMapping("/today")
-    public ResponseEntity<List<Live>> getTodaysLives() {
-        List<Live> lives = liveService.getTodaysLives();
+    public ResponseEntity<List<LiveResponse>> getTodaysLives() {
+        List<LiveResponse> lives = liveService.getTodaysLives();
+        System.out.println(lives);
         return ResponseEntity.ok(lives);
     }
 
     // 전체 공연 조회
     @GetMapping("/all")
-    public ResponseEntity<List<Live>> getAllLives() {
-        List<Live> lives = liveService.getAllLives();
+    public ResponseEntity<List<LiveResponse>> getAllLives() {
+        List<LiveResponse> lives = liveService.getAllLives();
         return ResponseEntity.ok(lives);
     }
 
     // 공연 상세정보 보기
     @GetMapping("/{id}")
-    public ResponseEntity<Live> getConcertDetails(@PathVariable Long id) {
-        Live live = liveService.getLiveById(id);
+    public ResponseEntity<LiveResponse> getConcertDetails(@PathVariable Long id) {
+        LiveResponse live = liveService.getLiveById(id);
         return ResponseEntity.ok(live);
     }
 

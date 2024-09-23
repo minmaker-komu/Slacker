@@ -38,25 +38,26 @@ public class BookingService {
         return new BookingResponse(
                 booking.getId(),
                 booking.getUser().getId(),
+                booking.getUser().getKakaoId(),
                 booking.getLive().getId(),
                 booking.getLive().getTitle(),
+                booking.getStatus(),
                 booking.getBookingDate(),
                 booking.getNumberOfTickets(),
                 booking.getTotalAmount(),
-                booking.getUser().getUsername(),
-                booking.getUser().getEmail()
+                booking.getUser().getUsername()
         );
     }
 
     // 예매 생성
     public BookingResponse createBooking(BookingRequest bookingRequest) {
 
-        String userEmail = bookingRequest.getUserEmail();
+        Long userId = bookingRequest.getUserId();
         String liveId = bookingRequest.getLiveId();
         int numberOfTickets = bookingRequest.getNumberOfTickets();
 
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + userEmail));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with kakaoId: " + userId));
 
         Live live = liveRepository.findById(Long.valueOf(liveId))
                 .orElseThrow(() -> new LiveNotFoundException("Live not found with ID: " + liveId));

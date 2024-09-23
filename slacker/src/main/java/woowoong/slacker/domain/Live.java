@@ -27,10 +27,11 @@ public class Live {
     private String notice;
     private String timetable;
     private String image;
-
+    private int remainNumOfSeats;
     private Time startTime;
 
-    public Live(Long id, String title, String bandLineup, LocalDate date, Club club_id, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image, Time startTime) {
+
+    public Live(Long id, String title, String bandLineup, LocalDate date, String club_id, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image, int remainNumOfSeats, Time startTime) {
         this.id = id;
         this.title = title;
         this.bandLineup = bandLineup;
@@ -42,6 +43,7 @@ public class Live {
         this.notice = notice;
         this.timetable = timetable;
         this.image = image;
+        this.remainNumOfSeats = remainNumOfSeats;
         this.startTime = startTime;
     }
 
@@ -148,4 +150,9 @@ public class Live {
     public void setClub_id(Club club_id) {
         this.club_id = club_id;
     }
+  
+    public void setRemainNumOfSeats(int remainNumOfSeats) {
+        this.remainNumOfSeats = remainNumOfSeats;
+    }
+  
 }

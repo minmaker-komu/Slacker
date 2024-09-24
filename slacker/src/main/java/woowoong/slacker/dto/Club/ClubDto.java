@@ -6,6 +6,15 @@ public class ClubDto {
     private String phoneNumber;
     private String website;
     private String notice;
+    private Long ownerId;
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
 
     // Getters and Setters
     public String getClubName() {

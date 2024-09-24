@@ -17,13 +17,19 @@ public class Club {
     private String website;
     private String notice;
 
-    public Club(Long id, String clubName, String location, String phoneNumber, String website, String notice) {
-        this.id = id;
+    @OneToOne
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    private User owner;
+
+
+
+    public Club(String clubName, String location, String phoneNumber, String website, String notice, User owner) {
         this.clubName = clubName;
         this.location = location;
         this.phoneNumber = phoneNumber;
         this.website = website;
         this.notice = notice;
+        this.owner = owner;
     }
 
     public Club() {

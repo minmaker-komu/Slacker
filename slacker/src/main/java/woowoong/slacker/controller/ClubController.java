@@ -38,13 +38,7 @@ public class ClubController {
     // 공연장 등록하기
     @PostMapping("/register")
     public ResponseEntity<Club> registerClub(@RequestBody ClubDto clubDto) {
-        Club club = clubService.registerClub(
-                clubDto.getClubName(),
-                clubDto.getLocation(),
-                clubDto.getPhoneNumber(),
-                clubDto.getWebsite(),
-                clubDto.getNotice()
-        );
-        return ResponseEntity.ok(club);
+        Club registeredClub = clubService.registerClub(clubDto);
+        return ResponseEntity.ok(registeredClub);
     }
 }

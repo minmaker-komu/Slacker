@@ -48,7 +48,7 @@ public class ClubService {
         }
 
         User user = userOptional.get();
-        
+
 
         // DTO 데이터를 기반으로 Club 객체 생성
         Club club = new Club(clubDto.getClubName(), clubDto.getLocation(),

@@ -26,7 +26,6 @@ public class KakaoPayController {
     // 결제요청
     @PostMapping("/ready")
     public ResponseEntity<KakaoPayReadyResponse> readyToKakaoPay(@RequestBody PayRequest payRequest) {
-        System.out.println(payRequest);
         KakaoPayReadyResponse kakaoPayReadyResponse = kakaoPayService.kakaoPayReady(payRequest.getBookingId());
         return ResponseEntity.ok(kakaoPayReadyResponse);  // 성공 시 200 OK 응답과 함께 결과 반환
     }
@@ -45,13 +44,5 @@ public class KakaoPayController {
         KakaoPayCancelResponse kakaoCancelResponse = kakaoPayService.kakaoCancel(payRequest.getBookingId());
         return ResponseEntity.ok(kakaoCancelResponse);
     }
-//    @PostMapping("/cancel")
-//    public String cancelPayRequest(@RequestBody PayRequest payRequest, Model model) {
-//        KakaoPayCancelResponse kakaoCancelResponse = kakaoPayService.kakaoCancel(payRequest.getBookingId());
-//
-//        // 결제 승인 후 메시지 설정
-//        model.addAttribute("message", "결제가 취소되었습니다.");
-//        return "payment"; // payment_success.html로 이동
-//    }
 
 }

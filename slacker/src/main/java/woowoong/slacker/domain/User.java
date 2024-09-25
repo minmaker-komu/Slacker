@@ -46,4 +46,6 @@ public class User {
         this.username = username;
     }
 
+    public void setRole(Role role) { this.role = role; }
+
 }

@@ -33,6 +33,8 @@ public class Booking {
     private int numberOfTickets;  // 예매한 티켓 수
     private int totalAmount; // 예매 총 가격
 
+    private String tid; // 고유 결제 번호
+
     public Booking(User user, Live live, BookingStatus status, LocalDateTime bookingDate, int numberOfTickets) {
         this.user = user;
         this.live = live;
@@ -61,5 +63,7 @@ public class Booking {
     public void setNumberOfTickets(int numberOfTickets) {
         this.numberOfTickets = numberOfTickets;
     }
+
+    public void setTid(String tid) { this.tid = tid; }
 }
 

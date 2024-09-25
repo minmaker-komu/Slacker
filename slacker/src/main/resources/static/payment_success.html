@@ -29,9 +29,19 @@
             color: rgb(128, 128, 128); /* 색상 조정 */
         }
     </style>
+    <script type="text/javascript">
+        // 앱으로 자동 돌아가기
+        function goBackToApp() {
+            window.location.href = "slacker://main";  // URI 스킴으로 앱의 MainActivity 호출
+        }
+
+        // 페이지 로드 후 일정 시간 대기 후 자동으로 앱으로 돌아가기
+        window.onload = function() {
+            setTimeout(goBackToApp, 1000);  // 2초 후 앱으로 돌아가기
+        }
+    </script>
 </head>
 <body>
 <div class="message">결제가 완료되었습니다</div>
-<div class="back-message">뒤로 가기를 눌러 앱으로 돌아가세요</div>
 </body>
 </html>

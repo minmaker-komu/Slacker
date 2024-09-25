@@ -18,6 +18,7 @@ import woowoong.slacker.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,6 +46,7 @@ public class BookingService {
                 booking.getBookingDate(),
                 booking.getNumberOfTickets(),
                 booking.getTotalAmount(),
+                booking.getTid(),
                 booking.getUser().getUsername()
         );
     }
@@ -94,5 +96,11 @@ public class BookingService {
     public List<Booking> getBookingsByUserId(Long userId) {
         // 리포지토리에서 유저 ID로 예매 내역 조회
         return bookingRepository.findByUserId(userId);
+    }
+
+    public BookingResponse getBookingById(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + bookingId));
+        return new BookingResponse(booking);
     }
 }

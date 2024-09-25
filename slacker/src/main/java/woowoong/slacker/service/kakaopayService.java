@@ -79,9 +79,9 @@ public class kakaopayService {
         parameters.put("quantity", String.valueOf(numberOfTickets));
         parameters.put("total_amount", String.valueOf(totalAmount));
         parameters.put("tax_free_amount", "0");
-        parameters.put("approval_url", "http://172.20.16.27:8080/payment/success"); // 성공 시 redirect url
-        parameters.put("cancel_url", "http://172.20.16.27:8080/payment/cancel"); // 취소 시 redirect url
-        parameters.put("fail_url", "http://172.20.16.27:8080/payment/fail"); // 실패 시 redirect url
+        parameters.put("approval_url", "http://192.168.146.76:8080/payment/success"); // 성공 시 redirect url
+        parameters.put("cancel_url", "http://192.168.146.76:8080/payment/cancel"); // 취소 시 redirect url
+        parameters.put("fail_url", "http://192.168.146.76:8080/payment/fail"); // 실패 시 redirect url
 
         // HttpEntity : HTTP 요청 또는 응답에 해당하는 Http Header와 Http Body를 포함하는 클래스
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(parameters, this.getHeaders());

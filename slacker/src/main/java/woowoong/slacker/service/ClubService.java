@@ -3,6 +3,7 @@ package woowoong.slacker.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import woowoong.slacker.domain.Club;
+import woowoong.slacker.domain.Role;
 import woowoong.slacker.domain.User;
 import woowoong.slacker.dto.Club.ClubDto;
 import woowoong.slacker.repository.ClubRepository;
@@ -47,11 +48,12 @@ public class ClubService {
         }
 
         User user = userOptional.get();
+        
 
         // DTO 데이터를 기반으로 Club 객체 생성
         Club club = new Club(clubDto.getClubName(), clubDto.getLocation(),
                 clubDto.getPhoneNumber(), clubDto.getWebsite(),
-                clubDto.getNotice(), user);
+                clubDto.getNotice(),user );
 
         return clubRepository.save(club);
     }

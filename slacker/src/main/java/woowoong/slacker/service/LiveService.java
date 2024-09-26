@@ -1,21 +1,17 @@
 package woowoong.slacker.service;
 
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import woowoong.slacker.domain.BookingStatus;
 import woowoong.slacker.domain.Live;
 import woowoong.slacker.dto.Live.LiveResponse;
 import woowoong.slacker.exception.LiveNotFoundException;
-import org.springframework.web.multipart.MultipartFile;
 import woowoong.slacker.domain.Club;
 import woowoong.slacker.repository.ClubRepository;
 import woowoong.slacker.repository.LiveRepository;
 
-import java.io.IOException;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +39,6 @@ public class LiveService {
                 .collect(Collectors.toList());
     }
 
-    // 특정 공연장 공연 조회
     // 특정 공연장 공연 조회
     public List<LiveResponse> getLivesByClub(Long clubId) {
         // clubId로 공연을 조회
@@ -144,7 +139,7 @@ public class LiveService {
         live.setTitle(title);
         live.setBandLineup(bandLineup);
         live.setDate(LocalDate.parse(date));  // String을 LocalDate로 변환
-        live.setClubId(club);  // Club 객체 설정
+        live.setClub(club);  // Club 객체 설정
         live.setGenre(genre);
         live.setAdvancePrice(advancePrice);
         live.setDoorPrice(doorPrice);

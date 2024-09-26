@@ -14,5 +14,7 @@ public interface LiveRepository extends JpaRepository<Live, Long> {
     List<Live> findByDate(LocalDate date);
 //    List<Live> findByClub(Club club);
     //List<Live> findByClubId(Long clubId);
-    public List<Live> findByClub_Id(Long clubId);
+    // club의 id로 공연을 조회하는 메서드
+    List<Live> findByClub_Id(Long clubId);
+
 }

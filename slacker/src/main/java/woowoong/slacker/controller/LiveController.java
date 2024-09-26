@@ -78,11 +78,15 @@ public class LiveController{
             @RequestParam("remain_num_of_seat") Integer remainNumOfSeat,
             @RequestParam("start_time") String startTime) {
         try {
+            // 클럽 ID 확인
+            System.out.println("clubId: " + clubId);
+
             // 서비스 호출하여 공연 등록
             LiveResponse live = liveService.registerLiveWithImage(
                     imageUrl, title, bandLineup, date, clubId, genre, advancePrice, doorPrice, notice, timetable, remainNumOfSeat, startTime);
             return ResponseEntity.ok(live);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(500).body(null);
         }
     }

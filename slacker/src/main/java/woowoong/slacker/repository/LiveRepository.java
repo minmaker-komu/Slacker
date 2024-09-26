@@ -13,5 +13,6 @@ import java.util.Optional;
 @Repository
 public interface LiveRepository extends JpaRepository<Live, Long> {
     List<Live> findByDate(LocalDate date);
-    List<Live> findByClub(Club club);
+//    List<Live> findByClub(Club club);
+    List<Live> findByClubId(Long clubId);
 }

@@ -44,11 +44,10 @@ public class LiveService {
     }
 
     // 특정 공연장 공연 조회
+    // 특정 공연장 공연 조회
     public List<LiveResponse> getLivesByClub(Long clubId) {
-        Club club = clubRepository.findById(clubId)
-                .orElseThrow(() -> new IllegalArgumentException("클럽을 찾을 수 없습니다."));
-
-        List<Live> lives = liveRepository.findByClub(club);
+        // clubId로 공연을 조회
+        List<Live> lives = liveRepository.findByClubId(clubId);
 
         // Live -> LiveResponse 변환
         return lives.stream()

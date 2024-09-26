@@ -9,6 +9,8 @@ import woowoong.slacker.dto.Live.LiveResponse;
 import woowoong.slacker.service.LiveService;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -45,22 +47,46 @@ public class LiveController{
 
     // 공연 등록하기
 
+//    @PostMapping("/register")
+//    public ResponseEntity<LiveResponse> registerLiveWithImage(
+//            @RequestParam("image") MultipartFile imageFile,
+//            @RequestParam("liveDto") String liveDtoJson) {
+//        try {
+//            // JSON 문자열을 LiveDto 객체로 변환
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            LiveResponse liveResponse = objectMapper.readValue(liveDtoJson, LiveResponse.class);
+//
+//            // 서비스 호출하여 공연 등록
+//            LiveResponse live = liveService.registerLiveWithImage(imageFile, liveResponse);
+//            return ResponseEntity.ok(live);
+//        } catch (IOException e) {
+//            return ResponseEntity.status(500).body(null);
+//        }
+//    }
     @PostMapping("/register")
     public ResponseEntity<LiveResponse> registerLiveWithImage(
-            @RequestParam("image") MultipartFile imageFile,
-            @RequestParam("liveDto") String liveDtoJson) {
+            @RequestParam("image") String imageUrl,
+            @RequestParam("title") String title,
+            @RequestParam("bandLineup") String bandLineup,
+            @RequestParam("date") String date,
+            @RequestParam("club_id") Long clubId,
+            @RequestParam("genre") String genre,
+            @RequestParam("advancePrice") Integer advancePrice,
+            @RequestParam("doorPrice") Integer doorPrice,
+            @RequestParam("notice") String notice,
+            @RequestParam("timetable") String timetable,
+            @RequestParam("remain_num_of_seat") Integer remainNumOfSeat,
+            @RequestParam("start_time") String startTime) {
         try {
-            // JSON 문자열을 LiveDto 객체로 변환
-            ObjectMapper objectMapper = new ObjectMapper();
-            LiveResponse liveResponse = objectMapper.readValue(liveDtoJson, LiveResponse.class);
-
             // 서비스 호출하여 공연 등록
-            LiveResponse live = liveService.registerLiveWithImage(imageFile, liveResponse);
+            LiveResponse live = liveService.registerLiveWithImage(
+                    imageUrl, title, bandLineup, date, clubId, genre, advancePrice, doorPrice, notice, timetable, remainNumOfSeat, startTime);
             return ResponseEntity.ok(live);
-        } catch (IOException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(500).body(null);
         }
     }
+
 
 
 }

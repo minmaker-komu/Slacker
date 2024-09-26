@@ -31,6 +31,9 @@ public class Live {
     private int remainNumOfSeats;
     private Time startTime;
 
+    public Club getClubId() {
+        return clubId;
+    }
 
     public Live(Long id, String title, String bandLineup, LocalDate date, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image, int remainNumOfSeats, Time startTime) {
         this.id = id;

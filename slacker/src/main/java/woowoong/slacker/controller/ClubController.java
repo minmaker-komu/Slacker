@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import woowoong.slacker.domain.Club;
 import woowoong.slacker.dto.Club.ClubDto;
 import woowoong.slacker.dto.Club.ClubResponse;
+import woowoong.slacker.dto.Club.UserClubResponse;
 import woowoong.slacker.service.ClubService;
 
 import java.util.List;
@@ -33,6 +34,12 @@ public class ClubController {
     @GetMapping("/{clubId}")
     public ResponseEntity<ClubResponse> getClubById(@PathVariable Long clubId) {
         ClubResponse clubFoundById = clubService.getClubById(clubId);
+        return ResponseEntity.ok(clubFoundById);
+    }
+
+    @GetMapping("/user/{clubId}")
+    public ResponseEntity<UserClubResponse> userGetClubById(@PathVariable Long clubId) {
+        UserClubResponse clubFoundById = clubService.userGetClubById(clubId);
         return ResponseEntity.ok(clubFoundById);
     }
 

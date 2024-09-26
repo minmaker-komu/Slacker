@@ -7,6 +7,7 @@ import woowoong.slacker.domain.Role;
 import woowoong.slacker.domain.User;
 import woowoong.slacker.dto.Club.ClubDto;
 import woowoong.slacker.dto.Club.ClubResponse;
+import woowoong.slacker.dto.Club.UserClubResponse;
 import woowoong.slacker.exception.ClubNotFoundException;
 import woowoong.slacker.exception.UserNotFoundException;
 import woowoong.slacker.repository.ClubRepository;
@@ -78,5 +79,11 @@ public class ClubService {
         club.setNotice(clubResponse.getNotice());
 
         return new ClubResponse(club);
+    }
+
+    public UserClubResponse userGetClubById(Long clubId) {
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new ClubNotFoundException("Club not found with Id: " + clubId));
+        return new UserClubResponse(club);
     }
 }

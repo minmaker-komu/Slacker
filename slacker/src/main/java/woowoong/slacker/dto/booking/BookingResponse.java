@@ -24,6 +24,7 @@ public class BookingResponse {
     private LocalDateTime bookingDate;  // 예매한 날짜
     private int numberOfTickets;  // 예매한 티켓 수
     private int totalAmount; // 예매 가격
+    private String tid; // 고유 결제 번호
 
     // 유저 정보 (필요한 경우)
     private String userName;  // 유저 이름 또는 닉네임
@@ -38,6 +39,7 @@ public class BookingResponse {
         this.bookingDate = booking.getBookingDate();
         this.numberOfTickets = booking.getNumberOfTickets();
         this.totalAmount = booking.getTotalAmount();
+        this.tid = booking.getTid();
         this.userName = booking.getUser().getUsername();
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import woowoong.slacker.domain.Club;
 import woowoong.slacker.repository.ClubRepository;
 import woowoong.slacker.repository.LiveRepository;
-import woowoong.slacker.service.spotify.Recommendation;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -63,16 +62,16 @@ public class LiveService {
         return new LiveResponse(live);
     }
 
-    public void changNumOfSeats(Long id, BookingStatus paymentState) {
+    public void changeNumOfSeats(Long id, int numberOfTickets, BookingStatus paymentState) {
         Live live = liveRepository.findById(id)
                 .orElseThrow(() -> new LiveNotFoundException("Live not found with ID: " + id));
 
         int remainNumOfSeats = live.getRemainNumOfSeats();
 
         if(paymentState == BookingStatus.COMPLETED) {
-            remainNumOfSeats = remainNumOfSeats - 1;
+            remainNumOfSeats = remainNumOfSeats - numberOfTickets;
         } else if (paymentState == BookingStatus.CANCELED) {
-            remainNumOfSeats = remainNumOfSeats + 1;
+            remainNumOfSeats = remainNumOfSeats + numberOfTickets;
         }
 
         live.setRemainNumOfSeats(remainNumOfSeats);

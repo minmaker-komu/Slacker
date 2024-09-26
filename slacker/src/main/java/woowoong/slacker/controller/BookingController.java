@@ -34,6 +34,12 @@ public class BookingController {
         return ResponseEntity.ok(bookingResponse);
     }
 
+    @GetMapping("/find/{bookingId}")
+    public ResponseEntity<BookingResponse> getBooking(@PathVariable Long bookingId) {
+        BookingResponse booking = bookingService.getBookingById(bookingId);
+        return ResponseEntity.ok(booking);
+    }
+
     // 특정 유저의 예매 내역 조회
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<BookingResponse>> getUserBookings(@PathVariable Long userId) {

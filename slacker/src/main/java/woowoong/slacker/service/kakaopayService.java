@@ -39,8 +39,10 @@ public class kakaopayService {
     private BookingResponse bookingResponse;
 
     public KakaoPayReadyResponse kakaoPayReady(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + bookingId));
 
-        HttpEntity<Map<String, String>> requestEntity = getRequestEntity(bookingId);
+        HttpEntity<Map<String, String>> requestEntity = getRequestEntity(booking);
 
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://open-api.kakaopay.com/online/v1/payment/ready";
@@ -51,15 +53,17 @@ public class kakaopayService {
 
         kakaoReady = responseEntity.getBody();
 
+        // 해당 예매 정보에 결제 고유번호 저장
+        String tid = kakaoReady.getTid();
+        booking.setTid(tid);
+
         return kakaoReady;
     }
 
-    private HttpEntity<Map<String, String>> getRequestEntity(Long bookingId) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new BookingNotFoundException("Booking not found with ID: " + bookingId));
-
+    private HttpEntity<Map<String, String>> getRequestEntity(Booking booking) {
         bookingResponse = new BookingResponse(booking);
 
+        Long bookingId = booking.getId();
         Long UserId = booking.getUser().getId();
         String itemName = booking.getLive().getTitle();
         int numberOfTickets = booking.getNumberOfTickets();
@@ -90,6 +94,7 @@ public class kakaopayService {
         Long bookingId = bookingResponse.getId();
         Long UserId = bookingResponse.getUserId();
         Long LiveId = bookingResponse.getLiveId();
+        int numberOfTickets = bookingResponse.getNumberOfTickets();
 
         // 카카오 요청 양식
         Map<String, String> parameters = new HashMap<>();
@@ -111,7 +116,7 @@ public class kakaopayService {
                 .postForObject(url, requestEntity, KakaoPayApproveResponse.class);
 
         bookingResponse = updateCompletedState(bookingId);
-        liveService.changNumOfSeats(LiveId, BookingStatus.COMPLETED);
+        liveService.changeNumOfSeats(LiveId, numberOfTickets, BookingStatus.COMPLETED);
 
         return approveResponse;
     }
@@ -123,9 +128,7 @@ public class kakaopayService {
         return bookingService.updateOrderStatus(updateBookingStatusRequest);
     }
 
-    /**
-     * 결제 환불
-     */
+    // 결제 취소
     public KakaoPayCancelResponse kakaoCancel(Long bookingId) {
 
         Booking booking = bookingRepository.findById(bookingId)
@@ -134,7 +137,7 @@ public class kakaopayService {
         // 카카오페이 요청
         Map<String, String> parameters = new HashMap<>();
         parameters.put("cid", cid);
-        parameters.put("tid", kakaoReady.getTid());
+        parameters.put("tid", booking.getTid());
         parameters.put("cancel_amount", String.valueOf(booking.getTotalAmount()));
         parameters.put("cancel_tax_free_amount", "0");
 
@@ -152,7 +155,7 @@ public class kakaopayService {
                 KakaoPayCancelResponse.class);
 
         updateCanceledState(bookingId);
-        liveService.changNumOfSeats(booking.getLive().getId(), BookingStatus.CANCELED);
+        liveService.changeNumOfSeats(booking.getLive().getId(), booking.getNumberOfTickets(), BookingStatus.CANCELED);
 
         return cancelResponse;
     }

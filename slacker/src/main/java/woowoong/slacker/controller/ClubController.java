@@ -42,4 +42,10 @@ public class ClubController {
         ClubResponse registeredClub = clubService.registerClub(clubDto);
         return ResponseEntity.ok(registeredClub);
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<ClubResponse> updateClub(@RequestBody ClubResponse clubResponse) {
+        ClubResponse registeredClub = clubService.updateClub(clubResponse);
+        return ResponseEntity.ok(registeredClub);
+    }
 }

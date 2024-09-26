@@ -45,6 +45,13 @@ public class LiveController{
         return ResponseEntity.ok(live);
     }
 
+    // 특정 클럽의 공연 조회
+    @GetMapping("/club/{clubId}")
+    public ResponseEntity<List<LiveResponse>> getLivesByClub(@PathVariable Long clubId) {
+        List<LiveResponse> lives = liveService.getLivesByClub(clubId);
+        return ResponseEntity.ok(lives);
+    }
+
     // 공연 등록하기
 
 //    @PostMapping("/register")

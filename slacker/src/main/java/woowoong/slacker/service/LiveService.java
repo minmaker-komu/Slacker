@@ -42,6 +42,19 @@ public class LiveService {
                 .collect(Collectors.toList());
     }
 
+    // 특정 공연장 공연 조회
+    public List<LiveResponse> getLivesByClub(Long clubId) {
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new IllegalArgumentException("클럽을 찾을 수 없습니다."));
+
+        List<Live> lives = liveRepository.findByClub(club);
+
+        // Live -> LiveResponse 변환
+        return lives.stream()
+                .map(this::convertToLiveResponse)
+                .collect(Collectors.toList());
+    }
+
     // 변환 로직을 별도 메서드로 분리
     private LiveResponse convertToLiveResponse(Live live) {
         return new LiveResponse(live);

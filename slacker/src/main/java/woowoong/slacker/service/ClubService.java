@@ -6,6 +6,9 @@ import woowoong.slacker.domain.Club;
 import woowoong.slacker.domain.Role;
 import woowoong.slacker.domain.User;
 import woowoong.slacker.dto.Club.ClubDto;
+import woowoong.slacker.dto.Club.ClubResponse;
+import woowoong.slacker.exception.ClubNotFoundException;
+import woowoong.slacker.exception.UserNotFoundException;
 import woowoong.slacker.repository.ClubRepository;
 import woowoong.slacker.repository.UserRepository;
 
@@ -30,8 +33,10 @@ public class ClubService {
     }
 
     // 특정 공연장 조회
-    public Optional<Club> getClubById(Long id) {
-        return clubRepository.findById(id);
+    public ClubResponse getClubById(Long id) {
+        Club club = clubRepository.findById(id)
+                .orElseThrow(() -> new ClubNotFoundException("Club not found with Id: " + id));
+        return new ClubResponse(club);
     }
 
 
@@ -40,22 +45,23 @@ public class ClubService {
 //        ClubDto club = new ClubDto(clubName, location, phoneNumber, website, notice, userId);
 //        return clubRepository.save(club);
 //    }
-    public Club registerClub(ClubDto clubDto) {
-        // userId를 통해 사용자 조회
-        Optional<User> userOptional = userRepository.findById(clubDto.getOwnerId());
-        if (!userOptional.isPresent()) {
-            throw new RuntimeException("User not found with ID: " + clubDto.getOwnerId());
-        }
 
-        User user = userOptional.get();
+    public ClubResponse registerClub(ClubDto clubDto) {
 
+        Long ownerId = clubDto.getOwnerId();
+
+        // userId를 통해 사장님 조회
+        User user = userRepository.findById(ownerId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with Id: " + ownerId));
 
         // DTO 데이터를 기반으로 Club 객체 생성
         Club club = new Club(clubDto.getClubName(), clubDto.getLocation(),
                 clubDto.getPhoneNumber(), clubDto.getWebsite(),
                 clubDto.getNotice(),user );
 
-        return clubRepository.save(club);
+        Club savedClub = clubRepository.save(club);
+
+        return new ClubResponse(savedClub);
     }
 
 

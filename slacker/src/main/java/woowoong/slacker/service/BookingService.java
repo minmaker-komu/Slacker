@@ -59,7 +59,7 @@ public class BookingService {
         int numberOfTickets = bookingRequest.getNumberOfTickets();
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found with kakaoId: " + userId));
+                .orElseThrow(() -> new UserNotFoundException("User not found with Id: " + userId));
 
         Live live = liveRepository.findById(Long.valueOf(liveId))
                 .orElseThrow(() -> new LiveNotFoundException("Live not found with ID: " + liveId));

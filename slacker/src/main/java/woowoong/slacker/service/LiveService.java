@@ -1,5 +1,6 @@
 package woowoong.slacker.service;
 
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import woowoong.slacker.domain.BookingStatus;
@@ -126,17 +127,17 @@ public class LiveService {
             String title,
             String bandLineup,
             String date,
-            Long clubId,
+            Long club_id,
             String genre,
             Integer advancePrice,
             Integer doorPrice,
             String notice,
             String timetable,
             Integer remainNumOfSeat,
-            String startTime) {
+            String start_time) {
 
         // 클럽 ID로 Club 객체 조회
-        Club club = clubRepository.findById(clubId)
+        Club club = clubRepository.findById(club_id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 클럽을 찾을 수 없습니다."));
 
         // Live 엔티티 생성
@@ -151,13 +152,21 @@ public class LiveService {
         live.setNotice(notice);
         live.setTimetable(timetable);
         live.setRemainNumOfSeats(remainNumOfSeat);
-        live.setStartTime(Time.valueOf(startTime));  // String을 LocalTime으로 변환
+        live.setStartTime(Time.valueOf(start_time));
         live.setImage(imageUrl);  // 이미지 URL 설정
 
-        // DB에 공연 저장
-        Live registeredLive = liveRepository.save(live);
+        System.out.println("공연 데이터" + live);
 
-        return new LiveResponse(registeredLive);
+        // DB에 공연 저장
+        //Live registeredLive = liveRepository.save(live);
+        try {
+            Live registeredLive = liveRepository.save(live); // DB에 공연 저장
+            return new LiveResponse(registeredLive);
+        } catch (Exception e) {
+            // 예외가 발생할 경우 로그에 출력
+            e.printStackTrace();
+            throw new RuntimeException("DB 저장 중 문제가 발생했습니다.");
+        }
     }
 
 }

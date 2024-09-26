@@ -12,7 +12,9 @@ import woowoong.slacker.repository.ClubRepository;
 import woowoong.slacker.repository.LiveRepository;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,29 +81,68 @@ public class LiveService {
     }
 
     // 이미지 포함 공연 등록
-    public LiveResponse registerLiveWithImage(MultipartFile imageFile, LiveResponse liveResponse) throws IOException {
-        // S3에 이미지 업로드
-        String imageUrl = s3Service.uploadFile(imageFile);
+//    public LiveResponse registerLiveWithImage(MultipartFile imageFile, LiveResponse liveResponse) throws IOException {
+//        // S3에 이미지 업로드
+//        String imageUrl = s3Service.uploadFile(imageFile);
+//
+//        // 클럽 ID로 Club 객체 조회
+//        Club club = clubRepository.findById(liveResponse.getClubId())
+//                .orElseThrow(() -> new IllegalArgumentException("해당 클럽을 찾을 수 없습니다."));
+//
+//        // Live 엔티티 생성
+//        Live live = new Live();
+//        live.setTitle(liveResponse.getTitle());
+//        live.setBandLineup(liveResponse.getBandLineup());
+//        live.setDate(liveResponse.getDate());
+//        live.setClubId(club);  // Club 객체 설정
+//        live.setGenre(liveResponse.getGenre());
+//        live.setAdvancePrice(liveResponse.getAdvancePrice());
+//        live.setDoorPrice(liveResponse.getDoorPrice());
+//        live.setNotice(liveResponse.getNotice());
+//        live.setTimetable(liveResponse.getTimetable());
+//        live.setImage(imageUrl);  // S3에 업로드된 이미지 URL
+//        live.setStartTime(liveResponse.getStartTime());
+//
+//        Live registeredLive = liveRepository.save(live);// DB에 공연 저장
+//
+//        return new LiveResponse(registeredLive);
+//    }
+
+    public LiveResponse registerLiveWithImage(
+            String imageUrl,
+            String title,
+            String bandLineup,
+            String date,
+            Long clubId,
+            String genre,
+            Integer advancePrice,
+            Integer doorPrice,
+            String notice,
+            String timetable,
+            Integer remainNumOfSeat,
+            String startTime) {
 
         // 클럽 ID로 Club 객체 조회
-        Club club = clubRepository.findById(liveResponse.getClubId())
+        Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 클럽을 찾을 수 없습니다."));
 
         // Live 엔티티 생성
         Live live = new Live();
-        live.setTitle(liveResponse.getTitle());
-        live.setBandLineup(liveResponse.getBandLineup());
-        live.setDate(liveResponse.getDate());
+        live.setTitle(title);
+        live.setBandLineup(bandLineup);
+        live.setDate(LocalDate.parse(date));  // String을 LocalDate로 변환
         live.setClubId(club);  // Club 객체 설정
-        live.setGenre(liveResponse.getGenre());
-        live.setAdvancePrice(liveResponse.getAdvancePrice());
-        live.setDoorPrice(liveResponse.getDoorPrice());
-        live.setNotice(liveResponse.getNotice());
-        live.setTimetable(liveResponse.getTimetable());
-        live.setImage(imageUrl);  // S3에 업로드된 이미지 URL
-        live.setStartTime(liveResponse.getStartTime());
+        live.setGenre(genre);
+        live.setAdvancePrice(advancePrice);
+        live.setDoorPrice(doorPrice);
+        live.setNotice(notice);
+        live.setTimetable(timetable);
+        live.setRemainNumOfSeats(remainNumOfSeat);
+        live.setStartTime(Time.valueOf(startTime));  // String을 LocalTime으로 변환
+        live.setImage(imageUrl);  // 이미지 URL 설정
 
-        Live registeredLive = liveRepository.save(live);// DB에 공연 저장
+        // DB에 공연 저장
+        Live registeredLive = liveRepository.save(live);
 
         return new LiveResponse(registeredLive);
     }

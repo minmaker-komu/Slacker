@@ -47,7 +47,7 @@ public class LiveService {
     // 특정 공연장 공연 조회
     public List<LiveResponse> getLivesByClub(Long clubId) {
         // clubId로 공연을 조회
-        List<Live> lives = liveRepository.findByClubId(clubId);
+        List<Live> lives = liveRepository.findByClub_Id(clubId);
 
         // Live -> LiveResponse 변환
         return lives.stream()

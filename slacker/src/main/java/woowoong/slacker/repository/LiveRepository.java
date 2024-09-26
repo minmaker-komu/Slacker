@@ -9,10 +9,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-// 해당 날짜 공연조회
 @Repository
 public interface LiveRepository extends JpaRepository<Live, Long> {
     List<Live> findByDate(LocalDate date);
 //    List<Live> findByClub(Club club);
-    List<Live> findByClubId(Long clubId);
+    //List<Live> findByClubId(Long clubId);
+    public List<Live> findByClub_Id(Long clubId);
 }

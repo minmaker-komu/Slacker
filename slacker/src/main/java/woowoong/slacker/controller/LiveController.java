@@ -98,6 +98,45 @@ public class LiveController{
         }
     }
 
+    // 공연 수정하기
+    @PutMapping("/{id}")
+    public ResponseEntity<LiveResponse> updateLive(
+            @PathVariable Long id,
+            @RequestParam("image") String imageUrl,
+            @RequestParam("title") String title,
+            @RequestParam("bandLineup") String bandLineup,
+            @RequestParam("date") String date,
+            @RequestParam("club_id") Long clubId,
+            @RequestParam("genre") String genre,
+            @RequestParam("advancePrice") Integer advancePrice,
+            @RequestParam("doorPrice") Integer doorPrice,
+            @RequestParam("notice") String notice,
+            @RequestParam("timetable") String timetable,
+            @RequestParam("remain_num_of_seat") Integer remainNumOfSeat,
+            @RequestParam("start_time") String startTime) {
+        try {
+            // 공연 업데이트 서비스 호출
+            LiveResponse updatedLive = liveService.updateLive(
+                    id, imageUrl, title, bandLineup, date, clubId, genre, advancePrice, doorPrice, notice, timetable, remainNumOfSeat, startTime);
+            return ResponseEntity.ok(updatedLive);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    // 공연 삭제하기
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteLive(@PathVariable Long id) {
+        try {
+            liveService.deleteLive(id);
+            return ResponseEntity.noContent().build();  // 삭제 후 성공 시 204 No Content
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();  // 오류 발생 시 500 Internal Server Error
+        }
+    }
+
 
 
 }

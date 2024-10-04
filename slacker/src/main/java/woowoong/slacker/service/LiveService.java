@@ -163,4 +163,60 @@ public class LiveService {
         }
     }
 
+    // 공연 수정
+    public LiveResponse updateLive(
+            Long id,
+            String imageUrl,
+            String title,
+            String bandLineup,
+            String date,
+            Long clubId,
+            String genre,
+            Integer advancePrice,
+            Integer doorPrice,
+            String notice,
+            String timetable,
+            Integer remainNumOfSeat,
+            String startTime) {
+
+        // 공연 ID로 기존 데이터를 조회
+        Live live = liveRepository.findById(id)
+                .orElseThrow(() -> new LiveNotFoundException("Live not found with ID: " + id));
+
+        // 공연 정보를 업데이트
+        live.setTitle(title);
+        live.setBandLineup(bandLineup);
+        live.setDate(LocalDate.parse(date));
+        live.setGenre(genre);
+        live.setAdvancePrice(advancePrice);
+        live.setDoorPrice(doorPrice);
+        live.setNotice(notice);
+        live.setTimetable(timetable);
+        live.setRemainNumOfSeats(remainNumOfSeat);
+        live.setStartTime(Time.valueOf(startTime));
+        live.setImage(imageUrl);
+
+        // 클럽 정보 업데이트 (필요 시)
+        if (clubId != null) {
+            Club club = clubRepository.findById(clubId)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 클럽을 찾을 수 없습니다."));
+            live.setClub(club);
+        }
+
+        // 변경된 공연 정보를 저장
+        Live updatedLive = liveRepository.save(live);
+        return new LiveResponse(updatedLive);
+    }
+
+    // 공연 삭제
+    public void deleteLive(Long id) {
+        // 공연 존재 여부 확인
+        Live live = liveRepository.findById(id)
+                .orElseThrow(() -> new LiveNotFoundException("Live not found with ID: " + id));
+
+        // 공연 삭제
+        liveRepository.delete(live);
+    }
+
+
 }

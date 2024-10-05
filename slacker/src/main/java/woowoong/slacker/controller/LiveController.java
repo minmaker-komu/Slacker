@@ -9,6 +9,8 @@ import woowoong.slacker.dto.Live.LiveResponse;
 import woowoong.slacker.service.LiveService;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -43,24 +45,98 @@ public class LiveController{
         return ResponseEntity.ok(live);
     }
 
+    // 특정 클럽의 공연 조회
+    @GetMapping("/club/{clubId}")
+    public ResponseEntity<List<LiveResponse>> getLivesByClub(@PathVariable Long clubId) {
+        List<LiveResponse> lives = liveService.getLivesByClub(clubId);
+        return ResponseEntity.ok(lives);
+    }
+
     // 공연 등록하기
 
+//    @PostMapping("/register")
+//    public ResponseEntity<LiveResponse> registerLiveWithImage(
+//            @RequestParam("image") MultipartFile imageFile,
+//            @RequestParam("liveDto") String liveDtoJson) {
+//        try {
+//            // JSON 문자열을 LiveDto 객체로 변환
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            LiveResponse liveResponse = objectMapper.readValue(liveDtoJson, LiveResponse.class);
+//
+//            // 서비스 호출하여 공연 등록
+//            LiveResponse live = liveService.registerLiveWithImage(imageFile, liveResponse);
+//            return ResponseEntity.ok(live);
+//        } catch (IOException e) {
+//            return ResponseEntity.status(500).body(null);
+//        }
+//    }
     @PostMapping("/register")
     public ResponseEntity<LiveResponse> registerLiveWithImage(
-            @RequestParam("image") MultipartFile imageFile,
-            @RequestParam("liveDto") String liveDtoJson) {
+            @RequestParam("image") String imageUrl,
+            @RequestParam("title") String title,
+            @RequestParam("bandLineup") String bandLineup,
+            @RequestParam("date") String date,
+            @RequestParam("club_id") Long clubId,
+            @RequestParam("genre") String genre,
+            @RequestParam("advancePrice") Integer advancePrice,
+            @RequestParam("doorPrice") Integer doorPrice,
+            @RequestParam("notice") String notice,
+            @RequestParam("timetable") String timetable,
+            @RequestParam("remain_num_of_seat") Integer remainNumOfSeat,
+            @RequestParam("start_time") String startTime) {
         try {
-            // JSON 문자열을 LiveDto 객체로 변환
-            ObjectMapper objectMapper = new ObjectMapper();
-            LiveResponse liveResponse = objectMapper.readValue(liveDtoJson, LiveResponse.class);
+            // 클럽 ID 확인
+            System.out.println("clubId: " + clubId);
 
             // 서비스 호출하여 공연 등록
-            LiveResponse live = liveService.registerLiveWithImage(imageFile, liveResponse);
+            LiveResponse live = liveService.registerLiveWithImage(
+                    imageUrl, title, bandLineup, date, clubId, genre, advancePrice, doorPrice, notice, timetable, remainNumOfSeat, startTime);
             return ResponseEntity.ok(live);
-        } catch (IOException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(500).body(null);
         }
     }
+
+    // 공연 수정하기
+    @PutMapping("/{id}")
+    public ResponseEntity<LiveResponse> updateLive(
+            @PathVariable Long id,
+            @RequestParam("image") String imageUrl,
+            @RequestParam("title") String title,
+            @RequestParam("bandLineup") String bandLineup,
+            @RequestParam("date") String date,
+            @RequestParam("club_id") Long clubId,
+            @RequestParam("genre") String genre,
+            @RequestParam("advancePrice") Integer advancePrice,
+            @RequestParam("doorPrice") Integer doorPrice,
+            @RequestParam("notice") String notice,
+            @RequestParam("timetable") String timetable,
+            @RequestParam("remain_num_of_seat") Integer remainNumOfSeat,
+            @RequestParam("start_time") String startTime) {
+        try {
+            // 공연 업데이트 서비스 호출
+            LiveResponse updatedLive = liveService.updateLive(
+                    id, imageUrl, title, bandLineup, date, clubId, genre, advancePrice, doorPrice, notice, timetable, remainNumOfSeat, startTime);
+            return ResponseEntity.ok(updatedLive);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    // 공연 삭제하기
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteLive(@PathVariable Long id) {
+        try {
+            liveService.deleteLive(id);
+            return ResponseEntity.noContent().build();  // 삭제 후 성공 시 204 No Content
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();  // 오류 발생 시 500 Internal Server Error
+        }
+    }
+
 
 
 }

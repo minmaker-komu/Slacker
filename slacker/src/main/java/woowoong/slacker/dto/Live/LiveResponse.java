@@ -31,7 +31,7 @@ public class LiveResponse {
         this.title = live.getTitle();
         this.bandLineup = live.getBandLineup();
         this.date = live.getDate();
-        this.clubId = live.getClubId().getId();;
+        this.clubId = live.getClub().getId();;
         this.genre = live.getGenre();
         this.advancePrice = live.getAdvancePrice();;
         this.doorPrice = live.getDoorPrice();

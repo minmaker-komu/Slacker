@@ -78,12 +78,18 @@ public class ClubService {
         club.setWebsite(clubResponse.getWebsite());
         club.setNotice(clubResponse.getNotice());
 
-        return new ClubResponse(club);
+        return new ClubResponse(clubRepository.save(club));
     }
 
     public UserClubResponse userGetClubById(Long clubId) {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> new ClubNotFoundException("Club not found with Id: " + clubId));
         return new UserClubResponse(club);
+    }
+
+    public Long getClubIdByOwnerId(Long ownerId) {
+        Club club = clubRepository.findByOwnerId(ownerId)
+                .orElseThrow(() -> new ClubNotFoundException("Club not found with Id: " + ownerId));
+        return club.getId();
     }
 }

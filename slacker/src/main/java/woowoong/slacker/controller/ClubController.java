@@ -43,6 +43,12 @@ public class ClubController {
         return ResponseEntity.ok(clubFoundById);
     }
 
+    @GetMapping("/id/{ownerId}")
+    public ResponseEntity<Long> getClubIdByOwnerId(@PathVariable Long ownerId) {
+        Long clubId = clubService.getClubIdByOwnerId(ownerId);
+        return ResponseEntity.ok(clubId);
+    }
+
     // 공연장 등록하기
     @PostMapping("/register")
     public ResponseEntity<ClubResponse> registerClub(@RequestBody ClubDto clubDto) {

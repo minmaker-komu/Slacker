@@ -7,7 +7,6 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 public class Club {
 
     @Id
@@ -36,5 +35,25 @@ public class Club {
 
     public Club() {
 
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
     }
 }

@@ -61,4 +61,10 @@ public class ClubController {
         ClubResponse registeredClub = clubService.updateClub(clubResponse);
         return ResponseEntity.ok(registeredClub);
     }
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteClub(@RequestBody Long clubId) {
+        clubService.deleteClub(clubId);
+        return ResponseEntity.ok("Success");
+    }
 }

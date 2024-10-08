@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -28,13 +29,13 @@ public class Live {
     private String timetable;
     private String image;
     private int remainNumOfSeats;
-    private Time startTime;
+    private LocalTime startTime;
 
     public Club getClub() {
         return club;
     }
 
-    public Live(Long id, String title, String bandLineup, LocalDate date, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image, int remainNumOfSeats, Time startTime) {
+    public Live(Long id, String title, String bandLineup, LocalDate date, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image, int remainNumOfSeats, LocalTime startTime) {
         this.id = id;
         this.title = title;
         this.bandLineup = bandLineup;
@@ -86,7 +87,7 @@ public class Live {
     public void setImage(String image) {
         this.image = image;
     }
-    public void setStartTime(Time startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
     public void setClub(Club club) {

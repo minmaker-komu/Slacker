@@ -7,6 +7,7 @@ import woowoong.slacker.domain.Live;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class LiveResponse {
     private String timetable;
     private String image;
     private int remainNumOfSeats;
-    private Time startTime;
+    private LocalTime startTime;
 
     public LiveResponse(Live live) {
         this.id = live.getId();
@@ -39,5 +40,6 @@ public class LiveResponse {
         this.timetable = live.getTimetable();
         this.image = live.getImage();
         this.remainNumOfSeats = live.getRemainNumOfSeats();
+        this.startTime = live.getStartTime();
     }
 }

@@ -1,7 +1,9 @@
 package woowoong.slacker.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import woowoong.slacker.domain.Club;
 import woowoong.slacker.domain.Role;
 import woowoong.slacker.domain.User;
@@ -65,6 +67,7 @@ public class ClubService {
         return new ClubResponse(savedClub);
     }
 
+    @Transactional
     public ClubResponse updateClub(ClubResponse clubResponse) {
         Long clubId = clubResponse.getId();
 
@@ -78,12 +81,27 @@ public class ClubService {
         club.setWebsite(clubResponse.getWebsite());
         club.setNotice(clubResponse.getNotice());
 
-        return new ClubResponse(club);
+        return new ClubResponse(clubRepository.save(club));
+    }
+
+    @Transactional
+    public void deleteClub(Long clubId) {
+        if (clubRepository.existsById(clubId)) {
+            clubRepository.deleteById(clubId);
+        } else {
+            throw new EntityNotFoundException("Club with id " + clubId + " not found");
+        }
     }
 
     public UserClubResponse userGetClubById(Long clubId) {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> new ClubNotFoundException("Club not found with Id: " + clubId));
         return new UserClubResponse(club);
+    }
+
+    public Long getClubIdByOwnerId(Long ownerId) {
+        Club club = clubRepository.findByOwnerId(ownerId)
+                .orElseThrow(() -> new ClubNotFoundException("Club not found with Id: " + ownerId));
+        return club.getId();
     }
 }

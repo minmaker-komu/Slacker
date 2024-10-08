@@ -43,6 +43,12 @@ public class ClubController {
         return ResponseEntity.ok(clubFoundById);
     }
 
+    @GetMapping("/id/{ownerId}")
+    public ResponseEntity<Long> getClubIdByOwnerId(@PathVariable Long ownerId) {
+        Long clubId = clubService.getClubIdByOwnerId(ownerId);
+        return ResponseEntity.ok(clubId);
+    }
+
     // 공연장 등록하기
     @PostMapping("/register")
     public ResponseEntity<ClubResponse> registerClub(@RequestBody ClubDto clubDto) {
@@ -54,5 +60,11 @@ public class ClubController {
     public ResponseEntity<ClubResponse> updateClub(@RequestBody ClubResponse clubResponse) {
         ClubResponse registeredClub = clubService.updateClub(clubResponse);
         return ResponseEntity.ok(registeredClub);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteClub(@RequestBody Long clubId) {
+        clubService.deleteClub(clubId);
+        return ResponseEntity.ok("Success");
     }
 }

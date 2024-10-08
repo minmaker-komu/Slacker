@@ -29,13 +29,13 @@ public class Live {
     private String timetable;
     private String image;
     private int remainNumOfSeats;
-    private LocalTime startTime;
+    private Time startTime;
 
     public Club getClub() {
         return club;
     }
 
-    public Live(Long id, String title, String bandLineup, LocalDate date, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image, int remainNumOfSeats, LocalTime startTime) {
+    public Live(Long id, String title, String bandLineup, LocalDate date, String genre, int advancePrice, int doorPrice, String notice, String timetable, String image, int remainNumOfSeats, Time startTime) {
         this.id = id;
         this.title = title;
         this.bandLineup = bandLineup;
@@ -87,7 +87,7 @@ public class Live {
     public void setImage(String image) {
         this.image = image;
     }
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
     public void setClub(Club club) {

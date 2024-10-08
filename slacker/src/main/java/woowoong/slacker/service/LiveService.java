@@ -147,7 +147,7 @@ public class LiveService {
         live.setNotice(notice);
         live.setTimetable(timetable);
         live.setRemainNumOfSeats(remainNumOfSeat);
-        live.setStartTime(LocalTime.parse(start_time));
+        live.setStartTime(Time.valueOf(start_time));
         live.setImage(imageUrl);  // 이미지 URL 설정
 
         System.out.println("공연 데이터" + live);
@@ -194,7 +194,7 @@ public class LiveService {
         live.setNotice(notice);
         live.setTimetable(timetable);
         live.setRemainNumOfSeats(remainNumOfSeat);
-        live.setStartTime(LocalTime.parse(startTime));
+        live.setStartTime(Time.valueOf(startTime));
         live.setImage(imageUrl);
 
         // 클럽 정보 업데이트 (필요 시)

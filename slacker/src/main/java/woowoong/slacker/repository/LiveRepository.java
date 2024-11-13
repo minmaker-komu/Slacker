@@ -17,4 +17,6 @@ public interface LiveRepository extends JpaRepository<Live, Long> {
     // club의 id로 공연을 조회하는 메서드
     List<Live> findByClub_Id(Long clubId);
 
+    void deleteAllByClubId(Long clubId);
+
 }

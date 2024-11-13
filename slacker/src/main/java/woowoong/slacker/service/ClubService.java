@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import woowoong.slacker.domain.Club;
-import woowoong.slacker.domain.Role;
 import woowoong.slacker.domain.User;
 import woowoong.slacker.dto.Club.ClubDto;
 import woowoong.slacker.dto.Club.ClubResponse;
@@ -13,21 +12,23 @@ import woowoong.slacker.dto.Club.UserClubResponse;
 import woowoong.slacker.exception.ClubNotFoundException;
 import woowoong.slacker.exception.UserNotFoundException;
 import woowoong.slacker.repository.ClubRepository;
+import woowoong.slacker.repository.LiveRepository;
 import woowoong.slacker.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClubService {
 
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
+    private final LiveRepository liveRepository;
 
     @Autowired
-    public ClubService(ClubRepository clubRepository, UserRepository userRepository) {
+    public ClubService(ClubRepository clubRepository, UserRepository userRepository, LiveRepository liveRepository) {
         this.clubRepository = clubRepository;
         this.userRepository = userRepository;
+        this.liveRepository = liveRepository;
     }
 
     // 전체 공연장 조회
@@ -41,13 +42,6 @@ public class ClubService {
                 .orElseThrow(() -> new ClubNotFoundException("Club not found with Id: " + id));
         return new ClubResponse(club);
     }
-
-
-    // 공연장 등록
-//    public ClubDto registerClub(String clubName, String location, String phoneNumber, String website, String notice, Long userId) {
-//        ClubDto club = new ClubDto(clubName, location, phoneNumber, website, notice, userId);
-//        return clubRepository.save(club);
-//    }
 
     public ClubResponse registerClub(ClubDto clubDto) {
 
@@ -87,6 +81,8 @@ public class ClubService {
     @Transactional
     public void deleteClub(Long clubId) {
         if (clubRepository.existsById(clubId)) {
+            // Club과 연관된 모든 Live 삭제
+            liveRepository.deleteAllByClubId(clubId);
             clubRepository.deleteById(clubId);
         } else {
             throw new EntityNotFoundException("Club with id " + clubId + " not found");

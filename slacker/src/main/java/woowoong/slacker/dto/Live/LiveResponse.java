@@ -25,7 +25,7 @@ public class LiveResponse {
     private String timetable;
     private String image;
     private int remainNumOfSeats;
-    private LocalTime startTime;
+    private Time startTime;
 
     public LiveResponse(Live live) {
         this.id = live.getId();
